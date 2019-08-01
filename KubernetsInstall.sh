@@ -132,3 +132,6 @@ systemctl start ntpd
 ntpdate -u ntp1.aliyun.com
 hwclock --systohc
 timedatectl set-timezone Asia/Shanghai
+
+# 初始化
+ kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.15.0 --pod-network-cidr=10.244.0.0/16
