@@ -1,8 +1,4 @@
 #/bin/bash
-mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-yum clean all
-yum makecache
 yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
 # Install required packages
 yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -38,17 +34,6 @@ sed -ri '/^[^#]*swap/s@^@#@' /etc/fstab
 yum install -y wget vim lsof net-tools lrzsz
 wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 yum makecache
-#升级内核
-#内核依赖包
-[ ! -f /usr/bin/perl ] && yum install -y perl
-rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-yum install -y https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
-
-Kernel_Version=$(yum --disablerepo="*" --enablerepo="elrepo-kernel" list available  --showduplicates|sort|awk '{print $2}'|awk -F '.el7' '{print $1}'|sed -n 5p)
-yum install -y kernel-lt-${Kernel_Version}
-grub2-set-default  0 && grub2-mkconfig -o /etc/grub2.cfg
-#你也可以在这个网址http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/ 上获取kernel版本，但是建议用我的方法升级内核
-reboot
 yum update -y
 # Install prerequisites
 yum-config-manager --add-repo=https://cbs.centos.org/repos/paas7-crio-311-candidate/x86_64/os/
@@ -110,8 +95,6 @@ vm.panic_on_oom=0
 EOF
 sysctl --system
 
-
-
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -135,3 +118,6 @@ timedatectl set-timezone Asia/Shanghai
 
 # 初始化
  kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.15.0 --pod-network-cidr=10.244.0.0/16
+ #dashboard
+docker pull mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3
+#chrome://flags/#allow-insecure-localhost
