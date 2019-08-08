@@ -50,7 +50,7 @@ install-packages() {
         time-set
         setup-container-runtime
         install-kubelet-centos-mirror
-        set-kube-adminconf
+        set-node-adminconf
 
     ;;
 

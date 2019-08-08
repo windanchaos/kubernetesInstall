@@ -50,7 +50,7 @@ case "$lsb_dist" in
         time-set
         install-kubelet-centos-mirror
         setup-master
-        set-kube-adminconf
+        set-master-adminconf
         #install-network-plugin
 	    setup-dashboard
     ;;

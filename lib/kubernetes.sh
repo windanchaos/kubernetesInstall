@@ -72,7 +72,7 @@ EOF
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     yum install -y kubernetes-cni kubelet kubeadm kubectl
     systemctl enable kubelet && systemctl start kubelet
-
+    mkdir -p $HOME/.kube
    # setup-kubelet-infra-container-image
 }
 
@@ -130,8 +130,15 @@ time-set(){
     hwclock --systohc
     timedatectl set-timezone Asia/Shanghai
 }
-set-kube-adminconf(){
+set-master-adminconf(){
     mkdir -p $HOME/.kube
     cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    #cp -i /etc/kubernetes/kubelet.conf $HOME/.kube/config
+    chown $(id -u):$(id -g) $HOME/.kube/config
+}
+set-node-adminconf(){
+    mkdir -p $HOME/.kube
+    #cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    cp -i /etc/kubernetes/kubelet.conf $HOME/.kube/config
     chown $(id -u):$(id -g) $HOME/.kube/config
 }
