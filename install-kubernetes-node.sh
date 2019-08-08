@@ -47,8 +47,10 @@ lsb_dist=$(lsb-dist)
 install-packages() {
  case "$lsb_dist" in
     fedora|centos|redhat)
+        time-set
         setup-container-runtime
         install-kubelet-centos-mirror
+        set-kube-adminconf
 
     ;;
 

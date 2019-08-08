@@ -72,9 +72,7 @@ EOF
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     yum install -y kubernetes-cni kubelet kubeadm kubectl
     systemctl enable kubelet && systemctl start kubelet
-    mkdir -p $HOME/.kube
-    cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    chown $(id -u):$(id -g) $HOME/.kube/config
+
    # setup-kubelet-infra-container-image
 }
 
@@ -122,4 +120,18 @@ setup-node() {
 
     # join master on worker nodes
     kubeadm join --ignore-preflight-errors all --discovery-token-unsafe-skip-ca-verification --token $token ${master_ip}:$port
+}
+
+time-set(){
+    yum -y install ntp
+    systemctl enable ntpd
+    systemctl start ntpd
+    ntpdate -u ntp1.aliyun.com
+    hwclock --systohc
+    timedatectl set-timezone Asia/Shanghai
+}
+set-kube-adminconf(){
+    mkdir -p $HOME/.kube
+    cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    chown $(id -u):$(id -g) $HOME/.kube/config
 }

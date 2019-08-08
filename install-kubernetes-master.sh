@@ -47,8 +47,10 @@ lsb_dist=$(lsb-dist)
 case "$lsb_dist" in
     fedora|centos|redhat)
         setup-container-runtime
+        time-set
         install-kubelet-centos-mirror
         setup-master
+        set-kube-adminconf
         #install-network-plugin
 	    setup-dashboard
     ;;
