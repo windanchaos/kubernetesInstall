@@ -23,7 +23,7 @@ mkdir -p /etc/docker
 #EOF
 # 添加 docker 用户组
 #关闭IPtables及NetworkManager
-systemctl disable --now firewalld NetworkManager
+systemctl disable --now firewalld
 setenforce 0
 sed -ri '/^[^#]*SELINUX=/s#=.+$#=disabled#' /etc/selinux/config
 
