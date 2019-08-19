@@ -121,3 +121,5 @@ timedatectl set-timezone Asia/Shanghai
  #dashboard
 docker pull mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3
 #chrome://flags/#allow-insecure-localhost
+#
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
